@@ -1,10 +1,3 @@
-//
-//  RMSettingViewController.swift
-//  RickAndMorty
-//
-//  Created by admin on 22.05.2026.
-//
-
 import UIKit
 
 final class RMSettingsViewController: UIViewController {
