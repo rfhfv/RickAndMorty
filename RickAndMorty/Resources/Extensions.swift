@@ -7,5 +7,3 @@ extension UIView {
         }
     }
 }
-
-
