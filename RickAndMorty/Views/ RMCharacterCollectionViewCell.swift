@@ -5,7 +5,8 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -30,13 +31,39 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .secondarySystemBackground
-        contentView.addSubviews(imageView, nameLabel, statusLabel)
+        setUpViews()
+        setUpLayer()
         addConstraints()
+        
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+        nameLabel.text = nil
+        statusLabel.text = nil
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        setUpLayer()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setUpViews() {
+        contentView.backgroundColor = .secondarySystemBackground
+        contentView.addSubviews(imageView, nameLabel, statusLabel)
+    }
+    
+    private func setUpLayer() {
+        contentView.layer.cornerRadius = 8
+        contentView.layer.shadowColor = UIColor.label.cgColor
+        contentView.layer.cornerRadius = 4
+        contentView.layer.shadowOffset = CGSize(width: -4, height: 4)
+        contentView.layer.shadowOpacity = 0.3
     }
     
     private func addConstraints() {
@@ -58,13 +85,6 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
             imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: nameLabel.topAnchor, constant: -10),
         ])
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        imageView.image = nil
-        nameLabel.text = nil
-        statusLabel.text = nil
     }
     
     public func configure(with viewModel: RMCharacterCollectionViewCellViewModel) {
