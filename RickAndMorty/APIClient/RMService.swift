@@ -3,7 +3,17 @@ import Foundation
 final class RMService {
     static let shared = RMService()
     
-    private init() {}
+    private let session: URLSession
+    
+    private init() {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 60
+        configuration.timeoutIntervalForResource = 120
+        configuration.waitsForConnectivity = true
+        configuration.httpMaximumConnectionsPerHost = 10
+        
+        self.session = URLSession(configuration: configuration)
+    }
     
     enum RMServiceError: Error {
         case failedToCreateRequest
@@ -20,7 +30,7 @@ final class RMService {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: urlRequest) { data, _, error in
+        let task = session.dataTask(with: urlRequest) { data, _, error in
             guard let data = data, error == nil else {
                 completion(.failure(error ?? RMServiceError.failedToGetData))
                 return
