@@ -7,7 +7,7 @@ protocol RMCharacterListViewDelegate: AnyObject {
     )
 }
 
-class RMCharacterListView: UIView {
+final class RMCharacterListView: UIView {
     public weak var delegate: RMCharacterListViewDelegate?
     private let viewModel = RMCharacterListViewViewModel()
     
@@ -26,6 +26,7 @@ class RMCharacterListView: UIView {
         collectionView.isHidden = true
         collectionView.alpha = 0
         collectionView.register(RMCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterCollectionViewCell.identifier)
+        collectionView.register(RMFooterLoadingCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: RMFooterLoadingCollectionReusableView.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
