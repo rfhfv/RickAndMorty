@@ -21,22 +21,13 @@ final class RMCharacterCollectionViewCellViewModel: Hashable, Equatable {
         return "Status: \(characterStatus.text)"
     }
     
-    public func fetchImage(comletion: @escaping (Result<Data, Error>) -> Void) {
+    public func fetchImage(completion: @escaping (Result<Data, Error>) -> Void) {
         // TODO: Abstract to Image Manager
         guard let url = characterImageUrl else {
-            comletion(.failure(URLError(.badURL)))
+            completion(.failure(URLError(.badURL)))
             return
         }
-        
-        let request = URLRequest(url: url)
-        let task = URLSession.shared.dataTask(with: request) { data, _, error in
-            guard let data, error == nil else {
-                comletion(.failure(error ?? URLError(.badServerResponse)))
-                return
-            }
-            comletion(.success(data))
-        }
-        task.resume()
+        RMImageLoader.shared.dowmloadImage(url, completion: completion)
     }
     
     // MARK: - Hashable
