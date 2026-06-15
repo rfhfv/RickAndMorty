@@ -5,7 +5,7 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
     
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.text = "Earth"
+        label.numberOfLines = 0
         label.font = .systemFont(ofSize: 22, weight: .light)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -13,7 +13,6 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Location"
         label.textAlignment = .center
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +22,6 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
     private let iconImageView: UIImageView = {
         let icon = UIImageView()
         icon.contentMode = .scaleAspectFit
-        icon.image = UIImage(systemName: "globe.americas")
         icon.translatesAutoresizingMaskIntoConstraints = false
         return icon
     }()
@@ -47,6 +45,8 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
         valueLabel.text = nil
         titleLabel.text = nil
         iconImageView.image = nil
+        iconImageView.tintColor = .label
+        titleLabel.textColor = .label
     }
     
     required init?(coder: NSCoder) {
@@ -54,6 +54,11 @@ final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(with viewModel: RMCharacterInfoCollectionViewCellViewModel) {
+        titleLabel.text = viewModel.title
+        valueLabel.text = viewModel.displayValue
+        iconImageView.image = viewModel.iconImage
+        iconImageView.tintColor = viewModel.tintColor
+        titleLabel.textColor = viewModel.tintColor
     }
 }
 
@@ -88,10 +93,10 @@ private extension RMCharacterInfoCollectionViewCell {
             iconImageView.heightAnchor.constraint(equalToConstant: 30),
             iconImageView.widthAnchor.constraint(equalToConstant: 30),
             
-            valueLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 36),
+            valueLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             valueLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: 10),
             valueLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            valueLabel.heightAnchor.constraint(equalToConstant: 30)
+            valueLabel.bottomAnchor.constraint(equalTo: titleContainerView.topAnchor)
         ])
     }
 }
