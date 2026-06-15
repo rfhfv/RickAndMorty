@@ -16,6 +16,12 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(with viewModel: RMCharacterEpisodeCollectionViewCellViewModel) {
+        viewModel.registerForData { data in
+            print(data.name)
+            print(data.air_date)
+            print(data.episode)
+        }
+        viewModel.fetchEpisode()
     }
 }
 
@@ -26,6 +32,8 @@ private extension RMCharacterEpisodeCollectionViewCell {
     }
     
     func setupViews() {
+        contentView.backgroundColor = .tertiarySystemBackground
+        contentView.layer.cornerRadius = 8
     }
     
     func setupConstraints() {
