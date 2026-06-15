@@ -74,21 +74,18 @@ extension RMCharacterDetailViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             cell.configure(with: viewModel)
-            cell.backgroundColor = .systemYellow
             return cell
         case .information(let viewModel):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterInfoCollectionViewCell.cellIdentifier, for: indexPath) as? RMCharacterInfoCollectionViewCell else {
                 return UICollectionViewCell()
             }
             cell.configure(with: viewModel[indexPath.row])
-            cell.backgroundColor = .systemRed
             return cell
         case .episodes(let viewModel):
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: RMCharacterEpisodeCollectionViewCell.cellIdentifier, for: indexPath) as? RMCharacterEpisodeCollectionViewCell else {
                 return UICollectionViewCell()
             }
             cell.configure(with: viewModel[indexPath.row])
-            cell.backgroundColor = .systemOrange
             return cell
         }
     }
