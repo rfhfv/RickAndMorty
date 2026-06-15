@@ -45,7 +45,9 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
+        registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (self: Self, previousTraitCollection: UITraitCollection) in
+               self.setUpLayer()
+           }
         setUpLayer()
     }
     

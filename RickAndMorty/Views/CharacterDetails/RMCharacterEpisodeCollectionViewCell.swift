@@ -70,7 +70,7 @@ private extension RMCharacterEpisodeCollectionViewCell {
     func setupConstraints() {
         NSLayoutConstraint.activate([
             seasonLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
-            seasonLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            seasonLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             seasonLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             seasonLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.3),
             
@@ -80,7 +80,7 @@ private extension RMCharacterEpisodeCollectionViewCell {
             nameLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.3),
             
             airDateLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor),
-            airDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            airDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             airDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             airDateLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.3),
         ])

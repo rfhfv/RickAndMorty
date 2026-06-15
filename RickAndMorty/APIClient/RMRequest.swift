@@ -17,7 +17,7 @@ final class RMRequest {
         if !pathComponents.isEmpty {
             string += "/"
             pathComponents.forEach({
-                string += "/\($0)"
+                string += "\($0)"
             })
         }
         
@@ -101,4 +101,5 @@ final class RMRequest {
 
 extension RMRequest {
     static let listCharactersRequests = RMRequest(endpoint: .character)
+    static let listEpisodesRequests = RMRequest(endpoint: .episode)
 }
