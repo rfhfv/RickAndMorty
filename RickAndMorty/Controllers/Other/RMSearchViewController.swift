@@ -1,10 +1,3 @@
-//
-//  RMSearchViewController.swift
-//  RickAndMorty
-//
-//  Created by admin on 16.06.2026.
-//
-
 import UIKit
 
 final class RMSearchViewController: UIViewController {

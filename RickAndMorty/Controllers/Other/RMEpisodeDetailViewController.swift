@@ -39,6 +39,9 @@ private extension RMEpisodeDetailViewController {
             barButtonSystemItem: .action,
             target: self,
             action: #selector(didtapShare))
+        
+        viewModel.delegate = self
+        viewModel.fetchEpisodeData()
     }
     
     func setupConstraints() {
@@ -52,5 +55,13 @@ private extension RMEpisodeDetailViewController {
     
     @objc func didtapShare() {
         
+    }
+}
+
+// MARK: - Delegate
+
+extension RMEpisodeDetailViewController: RMEpisodeDetailViewViewModelDelegate {
+    func didFinishEpisodeDetails() {
+        detailView.configure(with: viewModel)
     }
 }
