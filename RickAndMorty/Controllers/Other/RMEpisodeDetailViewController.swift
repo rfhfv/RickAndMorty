@@ -63,5 +63,6 @@ private extension RMEpisodeDetailViewController {
 extension RMEpisodeDetailViewController: RMEpisodeDetailViewViewModelDelegate {
     func didFinishEpisodeDetails() {
         detailView.configure(with: viewModel)
+        
     }
 }

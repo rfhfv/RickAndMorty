@@ -1,7 +1,7 @@
 import UIKit
 
 final class RMCharacterCollectionViewCell: UICollectionViewCell {
-    static let identifier = String(describing: RMCharacterCollectionViewCell.self)
+    static let cellIdentifier = String(describing: RMCharacterCollectionViewCell.self)
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
@@ -46,8 +46,8 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         registerForTraitChanges([UITraitUserInterfaceStyle.self]) { (self: Self, previousTraitCollection: UITraitCollection) in
-               self.setUpLayer()
-           }
+            self.setUpLayer()
+        }
         setUpLayer()
     }
     
