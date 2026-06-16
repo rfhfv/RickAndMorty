@@ -33,6 +33,7 @@ private extension RMEpisodeDetailViewController {
     func setupViews() {
         title = "Episode"
         view.addSubview(detailView)
+        detailView.delegate = self
         view.backgroundColor = .secondarySystemBackground
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -58,11 +59,22 @@ private extension RMEpisodeDetailViewController {
     }
 }
 
-// MARK: - Delegate
+// MARK: - ViewModel Delegate
 
 extension RMEpisodeDetailViewController: RMEpisodeDetailViewViewModelDelegate {
     func didFinishEpisodeDetails() {
         detailView.configure(with: viewModel)
         
+    }
+}
+
+// MARK: - View Delegate
+
+extension RMEpisodeDetailViewController: RMEpisodeDetailViewDelegate {
+    func rmEpisodeDetailView(_ detailView: RMEpisodeDetailView, didSelect character: RMCharacter) {
+        let vc = RMCharacterDetailViewController(viewModel: .init(character: character))
+        vc.title = character.name
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

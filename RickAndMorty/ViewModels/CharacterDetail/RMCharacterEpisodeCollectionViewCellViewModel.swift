@@ -52,7 +52,6 @@ final class RMCharacterEpisodeCollectionViewCellViewModel: Hashable, Equatable {
         isFetching = true
         
         RMService.shared.execute(request, expecting: RMEpisode.self) { [weak self] result in
-            print("URL: \(String(describing: self?.episodeDataUrl))")
             switch result {
             case .success(let model):
                 DispatchQueue.main.async {
