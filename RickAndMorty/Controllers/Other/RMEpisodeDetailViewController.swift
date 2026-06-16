@@ -3,6 +3,7 @@ import UIKit
 final class RMEpisodeDetailViewController: UIViewController {
     
     private let viewModel: RMEpisodeDetailViewViewModel
+    private let detailView = RMEpisodeDetailView()
     
     // MARK: - Init
     
@@ -19,7 +20,37 @@ final class RMEpisodeDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+    }
+}
+
+private extension RMEpisodeDetailViewController {
+    func setupUI() {
+        setupViews()
+        setupConstraints()
+    }
+    
+    func setupViews() {
         title = "Episode"
+        view.addSubview(detailView)
         view.backgroundColor = .secondarySystemBackground
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(didtapShare))
+    }
+    
+    func setupConstraints() {
+        NSLayoutConstraint.activate([
+            detailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            detailView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            detailView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            detailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
+    }
+    
+    @objc func didtapShare() {
+        
     }
 }
