@@ -9,6 +9,25 @@ enum RMSettingsOption: CaseIterable {
     case viewSeries
     case viewCode
     
+    var targetUrl: URL? {
+        switch self {
+        case .rateApp:
+            return nil
+        case .contactUs :
+            return URL(string: "https://rickandmortyapi.com/about")
+        case .terms:
+            return URL(string: "https://rickandmortyapi.com/about")
+        case .privacy:
+            return URL(string: "https://rickandmortyapi.com/about")
+        case .apiReference:
+            return URL(string: "https://rickandmortyapi.com/about")
+        case .viewSeries:
+            return URL(string: "https://rickandmortyapi.com/about")
+        case .viewCode:
+            return URL(string: "https://github.com/rfhfv/RickAndMorty")
+        }
+    }
+    
     var displayTitle: String {
         switch self {
         case .rateApp:

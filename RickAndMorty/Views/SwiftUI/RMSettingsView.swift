@@ -24,14 +24,18 @@ struct RMSettingsView: View {
                 }
                 Text(viewModel.title)
                     .padding(.leading, 10)
+                Spacer()
             }
             .padding(.bottom, 3)
+            .onTapGesture {
+                viewModel.onTaphandler(viewModel.type)
+            }
         }
     }
 }
 
-#Preview {
-    RMSettingsView(viewModel: .init(cellViewModels: RMSettingsOption.allCases.compactMap({
-        return RMSettingsCellViewModel(type: $0)
-    })))
-}
+//#Preview {
+//    RMSettingsView(viewModel: .init(cellViewModels: RMSettingsOption.allCases.compactMap({
+//        return RMSettingsCellViewModel(type: $0)
+//    })))
+//}
