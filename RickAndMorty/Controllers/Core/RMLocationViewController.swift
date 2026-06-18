@@ -13,6 +13,7 @@ final class RMLocationViewController: UIViewController {
         view.addSubview(primaryView)
         view.backgroundColor = .systemBackground
         title = "Locations"
+        primaryView.delegate = self
         addSearchButton()
         addConstraints()
         viewModel.delegate = self
@@ -28,7 +29,7 @@ final class RMLocationViewController: UIViewController {
     
     @objc private func didtapShearch() {
         
-        }
+    }
     
     private func addConstraints() {
         NSLayoutConstraint.activate([
@@ -46,5 +47,15 @@ extension RMLocationViewController: RMLocationViewModelDelegate {
     
     func didFetchInitialLocations() {
         primaryView.configure(with: viewModel)
+    }
+}
+
+// MARK: - LocationView Delegate
+
+extension RMLocationViewController: RMLocationViewDelegate {
+    func rmLocaionView(_ locationView: RMLocationView, didSelect location: RMLocation) {
+        let vc = RMLocationDetailViewController(location: location)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
