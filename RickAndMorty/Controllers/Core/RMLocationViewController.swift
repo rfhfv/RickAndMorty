@@ -15,6 +15,8 @@ final class RMLocationViewController: UIViewController {
         title = "Locations"
         addSearchButton()
         addConstraints()
+        viewModel.delegate = self
+        viewModel.fetchLocations()
     }
     
     private func addSearchButton() {
@@ -26,15 +28,23 @@ final class RMLocationViewController: UIViewController {
     
     @objc private func didtapShearch() {
         
-    }
+        }
     
     private func addConstraints() {
         NSLayoutConstraint.activate([
             primaryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            primaryView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             primaryView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            primaryView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             primaryView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+}
+
+// MARK: - LocationViewModel Delegate
+
+extension RMLocationViewController: RMLocationViewModelDelegate {
     
+    func didFetchInitialLocations() {
+        primaryView.configure(with: viewModel)
+    }
 }

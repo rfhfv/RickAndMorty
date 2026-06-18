@@ -1,10 +1,3 @@
-//
-//  RMLocationView.swift
-//  RickAndMorty
-//
-//  Created by admin on 18.06.2026.
-//
-
 import UIKit
 
 final class RMLocationView: UIView {
@@ -22,7 +15,7 @@ final class RMLocationView: UIView {
     
     private let tableView: UITableView = {
         let table = UITableView()
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        table.register(RMLocationViewTableViewCell.self, forCellReuseIdentifier: RMLocationViewTableViewCell.cellidentifier)
         table.alpha = 0
         table.isHidden = true
         table.translatesAutoresizingMaskIntoConstraints = false
@@ -41,6 +34,7 @@ final class RMLocationView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        configureTable()
     }
     
     required init?(coder: NSCoder) {
@@ -58,8 +52,12 @@ private extension RMLocationView {
         setupConstraints()
     }
     
+    func configureTable() {
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
     func setupViews() {
-        backgroundColor = .red
         translatesAutoresizingMaskIntoConstraints = false
         addSubviews(tableView, spinner)
         spinner.startAnimating()
@@ -80,3 +78,29 @@ private extension RMLocationView {
     }
 }
 
+extension RMLocationView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel?.cellViewModels.indices.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cellViewModels = viewModel?.cellViewModels else {
+            fatalError()
+        }
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RMLocationViewTableViewCell.cellidentifier, for: indexPath) as? RMLocationViewTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        let cellViewModel = cellViewModels[indexPath.row]
+        cell.textLabel?.text = cellViewModel.name
+        
+        return cell
+    }
+}
+
+extension RMLocationView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
+}

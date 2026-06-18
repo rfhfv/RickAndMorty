@@ -1,7 +1,7 @@
 import Foundation
 
 struct RMLocation: Codable {
-    let id: String
+    let id: Int
     let name: String
     let type: String
     let dimension: String
