@@ -26,6 +26,7 @@ final class RMSearchViewController: UIViewController {
         self.viewModel = viewModel
         self.searchView = RMSearchView(frame: .zero, viewModel: viewModel)
         super.init(nibName: nil, bundle: nil)
+        addContraints()
     }
     
     required init?(coder: NSCoder) {
@@ -42,9 +43,15 @@ final class RMSearchViewController: UIViewController {
             style: .done,
             target: self,
             action: #selector(didTapExecuteSearch))
+        searchView.delegate = self
         view.backgroundColor = .systemBackground
         view.addSubview(searchView)
         
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        searchView.presentkKeyboard()
     }
     
     @objc private func didTapExecuteSearch() {
@@ -58,5 +65,13 @@ final class RMSearchViewController: UIViewController {
             searchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             searchView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+}
+
+// MARK: - RMSearchView Delegate
+
+extension RMSearchViewController: RMSearchViewDelegate {
+    func rmSearchView(_ searchView: RMSearchView, didSelectOption option: RMSearchInputViewViewModel.DynamicOption) {
+        print("SHould present option picker")
     }
 }

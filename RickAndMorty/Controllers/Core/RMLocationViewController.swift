@@ -28,7 +28,9 @@ final class RMLocationViewController: UIViewController {
     }
     
     @objc private func didtapShearch() {
-        
+        let vc = RMSearchViewController(config: RMSearchViewController.Config(type: .location))
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func addConstraints() {

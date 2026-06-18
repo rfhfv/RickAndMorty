@@ -20,7 +20,7 @@ final class RMLocationViewTableViewCell: UITableViewCell {
     
     private let dimensionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 25, weight: .light)
+        label.font = .systemFont(ofSize: 15, weight: .light)
         label.textColor = .secondaryLabel
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
