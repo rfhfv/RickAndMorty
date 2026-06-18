@@ -56,7 +56,9 @@ private extension RMLocationDetailViewController {
     }
     
     @objc func didtapShare() {
-        
+        let vc = RMSearchViewController(config: .init(type: .location))
+        navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

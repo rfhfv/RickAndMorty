@@ -7,6 +7,14 @@ final class RMSearchViewController: UIViewController {
             case character
             case episode
             case location
+            
+            var title: String {
+                switch self {
+                case .character: return "Search Charcter"
+                case .location: return "Search Location"
+                case .episode: return "Search Episode"
+                }
+            }
         }
         let type: `Type`
     }
@@ -22,9 +30,11 @@ final class RMSearchViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Search"
+        title = config.type.title
         view.backgroundColor = .systemBackground
     }
 }

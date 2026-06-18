@@ -20,7 +20,9 @@ final class RMEpisodeViewController: UIViewController {
     }
     
     @objc private func didtapShearch() {
-        
+        let vc = RMSearchViewController(config: .init(type: .episode))
+        navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func setUpView() {
