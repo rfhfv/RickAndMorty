@@ -3,6 +3,9 @@ import UIKit
 protocol RMSearchInputViewDelegate: AnyObject {
     func rmSearchInputView(_ inputView: RMSearchInputView,
                            didSlectOption option: RMSearchInputViewViewModel.DynamicOption)
+    func rmSearchInputView(_ inputView: RMSearchInputView,
+                           didChangesearchText text: String)
+    func rmSearchInputViewDidtapSearchKeybosrdButton(_ inputView: RMSearchInputView)
 }
 
 final class RMSearchInputView: UIView {
@@ -141,6 +144,7 @@ private extension RMSearchInputView {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = .systemBackground
         addSubviews(searchBar)
+        searchBar.delegate = self
     }
     
     func setupConstraints() {
@@ -150,5 +154,18 @@ private extension RMSearchInputView {
             searchBar.trailingAnchor.constraint(equalTo: trailingAnchor),
             searchBar.heightAnchor.constraint(equalToConstant: 58)
         ])
+    }
+}
+
+// MARK: - UISearchBarDelegate
+
+extension RMSearchInputView: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        delegate?.rmSearchInputView(self, didChangesearchText: searchText)
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        delegate?.rmSearchInputViewDidtapSearchKeybosrdButton(self)
     }
 }

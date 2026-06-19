@@ -26,6 +26,7 @@ final class RMSearchViewController: UIViewController {
         }
         let type: `Type`
     }
+    
     private let viewModel: RMSearchViewViewModel
     private let searchView: RMSearchView
     
@@ -54,7 +55,6 @@ final class RMSearchViewController: UIViewController {
         searchView.delegate = self
         view.backgroundColor = .systemBackground
         view.addSubview(searchView)
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
