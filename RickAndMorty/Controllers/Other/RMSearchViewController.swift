@@ -35,7 +35,6 @@ final class RMSearchViewController: UIViewController {
         self.viewModel = viewModel
         self.searchView = RMSearchView(frame: .zero, viewModel: viewModel)
         super.init(nibName: nil, bundle: nil)
-        addContraints()
     }
     
     required init?(coder: NSCoder) {
@@ -55,6 +54,8 @@ final class RMSearchViewController: UIViewController {
         searchView.delegate = self
         view.backgroundColor = .systemBackground
         view.addSubview(searchView)
+        addContraints()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,5 +90,11 @@ extension RMSearchViewController: RMSearchViewDelegate {
         vc.sheetPresentationController?.detents = [.medium()]
         vc.sheetPresentationController?.prefersGrabberVisible = true
         present(vc, animated: true)
+    }
+    
+    func rmSearchView(_ searchView: RMSearchView, didSelectLocation location: RMLocation) {
+        let vc = RMLocationDetailViewController(location: location)
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

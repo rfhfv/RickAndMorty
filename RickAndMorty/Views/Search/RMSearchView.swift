@@ -2,6 +2,7 @@ import UIKit
 
 protocol RMSearchViewDelegate: AnyObject {
     func rmSearchView(_ searchView: RMSearchView, didSelectOption option: RMSearchInputViewViewModel.DynamicOption)
+    func rmSearchView(_ searchView: RMSearchView, didSelectLocation location: RMLocation)
 }
 
 class RMSearchView: UIView {
@@ -11,6 +12,7 @@ class RMSearchView: UIView {
     private let viewModel: RMSearchViewViewModel
     private let searchInputView = RMSearchInputView()
     private let noResultsview = RMNoSearchResultsView()
+    private let resultsView = RMSearchResultsView()
     
     // MARK: - Init
     
@@ -21,13 +23,9 @@ class RMSearchView: UIView {
         searchInputView.configure(with: RMSearchInputViewViewModel(type: viewModel.config.type))
         searchInputView.delegate = self
         
-        viewModel.registerOptionChangeBlock { tuple in
-            self.searchInputView.update(option: tuple.0, value: tuple.1)
-        }
+        setupHandlers(viewModel: viewModel)
         
-        viewModel.registerSearchResultHandler { results in
-            print(results)
-        }
+        resultsView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -45,10 +43,31 @@ private extension RMSearchView {
         setupConstraints()
     }
     
+    func setupHandlers(viewModel: RMSearchViewViewModel) {
+        viewModel.registerOptionChangeBlock { tuple in
+            self.searchInputView.update(option: tuple.0, value: tuple.1)
+        }
+        
+        viewModel.registerSearchResultHandler { [weak self] results in
+            DispatchQueue.main.async {
+                self?.resultsView.configure(with: results)
+                self?.noResultsview.isHidden = true
+                self?.resultsView.isHidden = false
+            }
+        }
+        
+        viewModel.registerNoResultHandler {
+            DispatchQueue.main.async { [weak self] in
+                self?.noResultsview.isHidden = false
+                self?.resultsView.isHidden = true
+            }
+        }
+    }
+    
     func setupViews() {
         backgroundColor = .systemBackground
         translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(noResultsview, searchInputView)
+        addSubviews(resultsView, noResultsview, searchInputView)
     }
     
     func setupConstraints() {
@@ -56,7 +75,12 @@ private extension RMSearchView {
             searchInputView.topAnchor.constraint(equalTo: topAnchor),
             searchInputView.leadingAnchor.constraint(equalTo: leadingAnchor),
             searchInputView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            searchInputView.heightAnchor.constraint(equalToConstant: viewModel.config.type == .episode ? 55 : 110),
+            searchInputView.heightAnchor.constraint(equalToConstant: viewModel.config.type == .episode ? 55 : 120),
+            
+            resultsView.topAnchor.constraint(equalTo: searchInputView.bottomAnchor),
+            resultsView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            resultsView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            resultsView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             noResultsview.heightAnchor.constraint(equalToConstant: 150),
             noResultsview.widthAnchor.constraint(equalToConstant: 150),
@@ -98,5 +122,15 @@ extension RMSearchView: RMSearchInputViewDelegate {
     
     func rmSearchInputViewDidtapSearchKeybosrdButton(_ inputView: RMSearchInputView) {
         viewModel.executeSearch()
+    }
+}
+
+extension RMSearchView: RMSearchResultsViewDelegate {
+    func rmSearchResultsView(_ resultsView: RMSearchResultsView, didTapLocationAt index: Int) {
+        guard let locationModel = viewModel.locationSearchResult(at: index) else {
+            return
+        }
+        print("location tapped \(locationModel)")
+        delegate?.rmSearchView(self, didSelectLocation: locationModel)
     }
 }

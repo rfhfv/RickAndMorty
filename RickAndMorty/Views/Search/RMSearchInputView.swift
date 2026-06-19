@@ -142,8 +142,7 @@ private extension RMSearchInputView {
     
     func setupViews() {
         translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .systemBackground
-        addSubviews(searchBar)
+        addSubview(searchBar)
         searchBar.delegate = self
     }
     
