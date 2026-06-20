@@ -50,7 +50,7 @@
 		846E72612FE3CC0F00986269 /* RMSearchInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E72602FE3CC0F00986269 /* RMSearchInputView.swift */; };
 		846E72632FE3CC5200986269 /* RMSearchInputViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E72622FE3CC5200986269 /* RMSearchInputViewViewModel.swift */; };
 		846E72652FE4E1BE00986269 /* RMSearchOptionPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E72642FE4E1BE00986269 /* RMSearchOptionPickerViewController.swift */; };
-		846E72672FE509F900986269 /* RMSearchResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E72662FE509F900986269 /* RMSearchResultViewModel.swift */; };
+		846E72672FE509F900986269 /* RMSearchResultType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E72662FE509F900986269 /* RMSearchResultType.swift */; };
 		846E72692FE5164A00986269 /* RMSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E72682FE5164A00986269 /* RMSearchResultsView.swift */; };
 		846E726B2FE5B8A600986269 /* RMTableLoadingFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E726A2FE5B8A600986269 /* RMTableLoadingFooterView.swift */; };
 		8488CB592FDE8D360019B11A /* RMCharacterPhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8488CB582FDE8D360019B11A /* RMCharacterPhotoCollectionViewCell.swift */; };
@@ -123,7 +123,7 @@
 		846E72602FE3CC0F00986269 /* RMSearchInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSearchInputView.swift; sourceTree = "<group>"; };
 		846E72622FE3CC5200986269 /* RMSearchInputViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSearchInputViewViewModel.swift; sourceTree = "<group>"; };
 		846E72642FE4E1BE00986269 /* RMSearchOptionPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSearchOptionPickerViewController.swift; sourceTree = "<group>"; };
-		846E72662FE509F900986269 /* RMSearchResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSearchResultViewModel.swift; sourceTree = "<group>"; };
+		846E72662FE509F900986269 /* RMSearchResultType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSearchResultType.swift; sourceTree = "<group>"; };
 		846E72682FE5164A00986269 /* RMSearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSearchResultsView.swift; sourceTree = "<group>"; };
 		846E726A2FE5B8A600986269 /* RMTableLoadingFooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMTableLoadingFooterView.swift; sourceTree = "<group>"; };
 		8488CB582FDE8D360019B11A /* RMCharacterPhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMCharacterPhotoCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -382,7 +382,7 @@
 				846E72572FE3C95C00986269 /* RMSearchView.swift */,
 				846E725B2FE3CB7900986269 /* RMNoSearchResultsView.swift */,
 				846E72602FE3CC0F00986269 /* RMSearchInputView.swift */,
-				846E72662FE509F900986269 /* RMSearchResultViewModel.swift */,
+				846E72662FE509F900986269 /* RMSearchResultType.swift */,
 				846E72682FE5164A00986269 /* RMSearchResultsView.swift */,
 			);
 			path = Search;
@@ -581,7 +581,7 @@
 				84412AF42FC3EE5B006F6160 /*  RMCharacterCollectionViewCell.swift in Sources */,
 				846E72452FE3945D00986269 /* RMLocationView.swift in Sources */,
 				843D896C2FE0447600CD2DDD /* RMEpisodeListViewViewModel.swift in Sources */,
-				846E72672FE509F900986269 /* RMSearchResultViewModel.swift in Sources */,
+				846E72672FE509F900986269 /* RMSearchResultType.swift in Sources */,
 				843D89622FDFE19400CD2DDD /* RMAPICacheManager.swift in Sources */,
 				843D896E2FE0480000CD2DDD /* RMGetAllEpisodesResponse.swift in Sources */,
 				843D89762FE102CC00CD2DDD /* RMEpisodeInfoCollectionViewCellViewModel.swift in Sources */,
@@ -746,9 +746,10 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -778,9 +779,10 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
