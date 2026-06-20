@@ -150,7 +150,7 @@ extension RMCharacterListViewViewModel: UICollectionViewDelegateFlowLayout {
         if isIphone {
             width = (bounts.width - 30) / 2
         } else {
-            width = (bounts.width - 30) / 4
+            width = (bounts.width - 50) / 4
         }
         
         return CGSize(

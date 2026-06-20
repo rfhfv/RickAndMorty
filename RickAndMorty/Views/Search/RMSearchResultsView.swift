@@ -210,7 +210,8 @@ extension RMSearchResultsView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        guard let viewModel = viewModel?.shouldShowLoadMoreIndicator else {
+        guard let viewModel = viewModel,
+              viewModel.shouldShowLoadMoreIndicator else {
             return .zero
         }
         return CGSize(width: collectionView.frame.width, height: 100)
@@ -243,8 +244,21 @@ extension RMSearchResultsView: UIScrollViewDelegate {
             
             if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
                 viewModel.fetchAdditionalResults { [weak self] newResults in
-                    self?.tableView.tableFooterView = nil
-                    self?.collectionViewCellViewModels = newResults
+                    guard let self else { return }
+                    
+                    DispatchQueue.main.async {
+                        self.tableView.tableFooterView = nil
+                        
+                        let originalCount = self.collectionViewCellViewModels.count
+                        let newCount = (newResults.count - originalCount)
+                        let total = originalCount + newCount
+                        let startingIndex = total - newCount
+                        let indexPathToAdd: [IndexPath] = Array(startingIndex..<(startingIndex + newCount)).compactMap({
+                            return IndexPath(row: $0, section: 0)
+                        })
+                        self.collectionViewCellViewModels = newResults
+                        self.collectionView.insertItems(at: indexPathToAdd)
+                    }
                 }
             }
             t.invalidate()

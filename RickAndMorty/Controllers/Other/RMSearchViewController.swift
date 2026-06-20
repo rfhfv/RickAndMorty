@@ -64,6 +64,7 @@ final class RMSearchViewController: UIViewController {
     }
     
     @objc private func didTapExecuteSearch() {
+        view.endEditing(true)
         viewModel.executeSearch()
     }
     
