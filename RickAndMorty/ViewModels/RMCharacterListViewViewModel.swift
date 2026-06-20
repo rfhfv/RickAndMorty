@@ -141,13 +141,11 @@ extension RMCharacterListViewViewModel: UICollectionViewDelegate { }
 
 extension RMCharacterListViewViewModel: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        
-        let isIphone = UIDevice.current.userInterfaceIdiom == .phone
-        
+
         let bounts = collectionView.bounds
         let width: CGFloat
         
-        if isIphone {
+        if UIDevice.isiPhone {
             width = (bounts.width - 30) / 2
         } else {
             width = (bounts.width - 50) / 4

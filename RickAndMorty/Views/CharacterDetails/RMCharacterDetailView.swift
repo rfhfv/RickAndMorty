@@ -67,7 +67,7 @@ private extension RMCharacterDetailView {
         
         switch sectionTypes[sectionIndex] {
         case .photo: return viewModel.createPhotoSectionlayout()
-        case .information: return viewModel.createInformationSectionlayout()
+        case .information: return viewModel.createInfoSectionlayout()
         case .episodes: return viewModel.createEpisodesSectionlayout()
         }
     }
