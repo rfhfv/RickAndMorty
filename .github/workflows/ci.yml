@@ -22,4 +22,5 @@ jobs:
           xcodebuild \
             -scheme RickAndMorty \
             -destination "generic/platform=iOS Simulator" \
-            clean build
+            clean build \
+            2>&1 | grep -E "error:|warning:|BUILD"
