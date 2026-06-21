@@ -4,10 +4,6 @@ struct RMLocationViewTableViewCellViewModel: Hashable, Equatable {
     
     private let location: RMLocation
     
-    init(location: RMLocation) {
-        self.location = location
-    }
-    
     public var name: String {
         return location.name
     }
@@ -18,6 +14,10 @@ struct RMLocationViewTableViewCellViewModel: Hashable, Equatable {
     
     public var dimension: String {
         return location.dimension
+    }
+    
+    init(location: RMLocation) {
+        self.location = location
     }
     
     static func == (lhs: RMLocationViewTableViewCellViewModel, rhs: RMLocationViewTableViewCellViewModel) -> Bool {

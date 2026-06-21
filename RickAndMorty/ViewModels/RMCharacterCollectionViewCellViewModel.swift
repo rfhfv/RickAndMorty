@@ -1,9 +1,17 @@
 import UIKit
 
 final class RMCharacterCollectionViewCellViewModel: Hashable, Equatable {
-    public let characterName: String
+    
     private let characterStatus: RMCharacterStatus
     private let characterImageUrl: URL?
+    
+    public let characterName: String
+    
+    public var characterStatusText: String {
+        return characterStatus.text.uppercased()
+    }
+    
+    public var characterColor: UIColor { characterStatus.color }
     
     // MARK: - Init
     
@@ -17,12 +25,7 @@ final class RMCharacterCollectionViewCellViewModel: Hashable, Equatable {
         self.characterImageUrl = characterImageUrl
     }
     
-    public var characterStatusText: String {
-        return "Status: \(characterStatus.text)"
-    }
-    
     public func fetchImage(completion: @escaping (Result<Data, Error>) -> Void) {
-        // TODO: Abstract to Image Manager
         guard let url = characterImageUrl else {
             completion(.failure(URLError(.badURL)))
             return

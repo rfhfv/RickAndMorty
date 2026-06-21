@@ -12,7 +12,6 @@ final class RMSearchOptionPickerViewController: UIViewController {
         return table
     }()
     
-    
     // MARK: - Init
     
     init(option: RMSearchInputViewViewModel.DynamicOption, selection: @escaping (String) -> Void) {

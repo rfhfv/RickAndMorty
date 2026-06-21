@@ -9,7 +9,6 @@ protocol RMEpisodeListViewDelegate: AnyObject {
 
 final class RMEpisodeListView: UIView {
     
-    public weak var delegate: RMEpisodeListViewDelegate?
     private let viewModel = RMEpisodeListViewViewModel()
     
     private let spinner: UIActivityIndicatorView = {
@@ -32,24 +31,41 @@ final class RMEpisodeListView: UIView {
         return collectionView
     }()
     
+    public weak var delegate: RMEpisodeListViewDelegate?
+    
     // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(collectionView, spinner)
-        addConstraints()
-        spinner.startAnimating()
+        setupUI()
         viewModel.delegate = self
-        viewModel.fetchEpisodes()
         setupCollectionView()
+        viewModel.fetchEpisodes()
     }
     
     required init?(coder: NSCoder) {
         fatalError("Unsupported")
     }
+}
+
+private extension RMEpisodeListView {
+    func setupUI() {
+        setupViews()
+        setupConstraints()
+    }
     
-    private func addConstraints() {
+    func setupCollectionView() {
+        collectionView.dataSource = viewModel
+        collectionView.delegate = viewModel
+    }
+    
+    func setupViews() {
+        translatesAutoresizingMaskIntoConstraints = false
+        addSubviews(collectionView, spinner)
+        spinner.startAnimating()
+    }
+    
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             spinner.widthAnchor.constraint(equalToConstant: 100),
             spinner.heightAnchor.constraint(equalToConstant: 100),
@@ -61,11 +77,6 @@ final class RMEpisodeListView: UIView {
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-    }
-    
-    private func setupCollectionView() {
-        collectionView.dataSource = viewModel
-        collectionView.delegate = viewModel
     }
 }
 

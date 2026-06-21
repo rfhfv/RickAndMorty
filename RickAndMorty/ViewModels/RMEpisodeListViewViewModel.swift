@@ -7,19 +7,11 @@ protocol RMEpisodeListViewViewModelDelegate: AnyObject {
 }
 
 final class RMEpisodeListViewViewModel: NSObject {
-    public weak var delegate: RMEpisodeListViewViewModelDelegate?
     
     private var isLoadingMoreEpisodes = false
-    
-    private var episodes: [RMEpisode] = [] {
-        didSet {
-            createCellViewModels()
-        }
-    }
+    private var apiInfo: RMGetAllEpisodesResponse.Info? = nil
     
     private var cellViewModels: [RMCharacterEpisodeCollectionViewCellViewModel] = []
-    
-    private var apiInfo: RMGetAllEpisodesResponse.Info? = nil
     
     private let borderColors: [UIColor] = [
         .systemGreen,
@@ -33,16 +25,16 @@ final class RMEpisodeListViewViewModel: NSObject {
         .systemIndigo
     ]
     
-    private func createCellViewModels() {
-        for episode in episodes {
-            let viewModel = RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: episode.url),
-                borderColor: borderColors.randomElement() ?? .systemBlue
-            )
-            
-            if !cellViewModels.contains(viewModel) {
-                cellViewModels.append(viewModel)
-            }
+    private var episodes: [RMEpisode] = [] {
+        didSet {
+            createCellViewModels()
         }
+    }
+    
+    public weak var delegate: RMEpisodeListViewViewModelDelegate?
+    
+    public var shouldShowLoadMoreIndicator: Bool {
+        return apiInfo?.next != nil
     }
     
     public func fetchEpisodes() {
@@ -72,6 +64,7 @@ final class RMEpisodeListViewViewModel: NSObject {
         }
         
         isLoadingMoreEpisodes = true
+        
         guard let request = RMRequest(url: url) else {
             isLoadingMoreEpisodes = false
             return
@@ -110,8 +103,17 @@ final class RMEpisodeListViewViewModel: NSObject {
             }
     }
     
-    public var shouldShowLoadMoreIndicator: Bool {
-        return apiInfo?.next != nil
+    private func createCellViewModels() {
+        for episode in episodes {
+            let viewModel = RMCharacterEpisodeCollectionViewCellViewModel(
+                episodeDataUrl: URL(string: episode.url),
+                borderColor: borderColors.randomElement() ?? .systemBlue
+            )
+            
+            if !cellViewModels.contains(viewModel) {
+                cellViewModels.append(viewModel)
+            }
+        }
     }
 }
 
@@ -148,8 +150,6 @@ extension RMEpisodeListViewViewModel: UICollectionViewDataSource {
         return CGSize(width: collectionView.frame.width, height: 100)
     }
 }
-
-extension RMEpisodeListViewViewModel: UICollectionViewDelegate { }
 
 extension RMEpisodeListViewViewModel: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

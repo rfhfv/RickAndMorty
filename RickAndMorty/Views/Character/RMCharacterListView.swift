@@ -8,7 +8,7 @@ protocol RMCharacterListViewDelegate: AnyObject {
 }
 
 final class RMCharacterListView: UIView {
-    public weak var delegate: RMCharacterListViewDelegate?
+    
     private let viewModel = RMCharacterListViewViewModel()
     
     private let spinner: UIActivityIndicatorView = {
@@ -31,24 +31,43 @@ final class RMCharacterListView: UIView {
         return collectionView
     }()
     
+    public weak var delegate: RMCharacterListViewDelegate?
+    
     // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(collectionView, spinner)
-        addConstraints()
-        spinner.startAnimating()
+        setupUI()
+        setupCollectionView()
         viewModel.delegate = self
         viewModel.fetchCharacters()
-        setupCollectionView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("Unsupported")
     }
+}
+
+// MARK: - Private
+
+private extension RMCharacterListView {
+    func setupUI() {
+        setupViews()
+        setupConstraints()
+    }
     
-    private func addConstraints() {
+    func setupCollectionView() {
+        collectionView.dataSource = viewModel
+        collectionView.delegate = viewModel
+    }
+    
+    func setupViews() {
+        translatesAutoresizingMaskIntoConstraints = false
+        addSubviews(collectionView, spinner)
+        spinner.startAnimating()
+    }
+    
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             spinner.widthAnchor.constraint(equalToConstant: 100),
             spinner.heightAnchor.constraint(equalToConstant: 100),
@@ -61,12 +80,9 @@ final class RMCharacterListView: UIView {
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
-    private func setupCollectionView() {
-        collectionView.dataSource = viewModel
-        collectionView.delegate = viewModel
-    }
 }
+
+// MARK: - RMCharacterListViewViewModelDelegate
 
 extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
     func didSelectCharacter(_ character: RMCharacter) {

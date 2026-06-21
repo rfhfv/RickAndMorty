@@ -1,6 +1,7 @@
 import UIKit
 
 final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
+    
     static let cellIdentifier = String(describing: RMCharacterEpisodeCollectionViewCell.self)
     
     private let seasonLabel: UILabel = {
@@ -85,4 +86,3 @@ private extension RMCharacterEpisodeCollectionViewCell {
         ])
     }
 }
-

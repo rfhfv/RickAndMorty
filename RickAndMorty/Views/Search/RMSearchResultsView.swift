@@ -8,8 +8,6 @@ protocol RMSearchResultsViewDelegate: AnyObject {
 
 final class RMSearchResultsView: UIView {
     
-    weak var delegate: RMSearchResultsViewDelegate?
-    
     private var locationCellViewModel: [RMLocationViewTableViewCellViewModel] = []
     private var collectionViewCellViewModels: [any Hashable] = []
     
@@ -39,6 +37,8 @@ final class RMSearchResultsView: UIView {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    
+    weak var delegate: RMSearchResultsViewDelegate?
     
     // MARK: - Init
     
@@ -202,7 +202,7 @@ extension RMSearchResultsView: UICollectionViewDelegateFlowLayout {
             )
         }
         
-        // Episode
+        // Episode size
         let width = UIDevice.isiPhone ? bounts.width - 20 : (bounts.width - 50) / 4
         return CGSize(
             width: width,

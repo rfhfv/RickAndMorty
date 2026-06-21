@@ -5,17 +5,19 @@ protocol RMLocationDetailViewViewModelDelegate: AnyObject {
 }
 
 final class RMLocationDetailViewViewModel {
+    
+    enum SectionType {
+        case information(viewModel: [RMEpisodeInfoCollectionViewCellViewModel])
+        case characters(viewModel: [RMCharacterCollectionViewCellViewModel])
+    }
+    
     private let endpointUrl: URL?
+    
     private var dataTuple: (location: RMLocation, characters: [RMCharacter])? {
         didSet {
             createCellViewModels()
             delegate?.didFinishLocationDetails()
         }
-    }
-    
-    enum SectionType {
-        case information(viewModel: [RMEpisodeInfoCollectionViewCellViewModel])
-        case characters(viewModel: [RMCharacterCollectionViewCellViewModel])
     }
     
     public private(set) var cellViewModels: [SectionType] = []
@@ -29,6 +31,23 @@ final class RMLocationDetailViewViewModel {
         fetchLocationData()
     }
     
+    // MARK: - Public
+    
+    public func fetchLocationData() {
+        guard let url = endpointUrl, let request = RMRequest(url: url) else {
+            return
+        }
+        
+        RMService.shared.execute(request, expecting: RMLocation.self) { [weak self] result in
+            switch result {
+            case .success(let model):
+                self?.fetchRelatedCharacters(location: model)
+            case .failure:
+                break
+            }
+        }
+    }
+    
     public func character(at index: Int) -> RMCharacter? {
         guard let dataTuple = dataTuple else {
             return nil
@@ -36,7 +55,7 @@ final class RMLocationDetailViewViewModel {
         return dataTuple.characters[index]
     }
     
-    // MARK: - Public
+    // MARK: - Private
     
     private func createCellViewModels() {
         guard let dataTuple = dataTuple else {
@@ -62,29 +81,11 @@ final class RMLocationDetailViewViewModel {
                 return RMCharacterCollectionViewCellViewModel(
                     characterName: character.name,
                     characterStatus: character.status,
-                    characterImageUrl: URL(string: character.image )
+                    characterImageUrl: URL(string: character.image)
                 )
             }))
         ]
     }
-    
-    /// Fetch location model
-    public func fetchLocationData() {
-        guard let url = endpointUrl, let request = RMRequest(url: url) else {
-            return
-        }
-        
-        RMService.shared.execute(request, expecting: RMLocation.self) { [weak self] result in
-            switch result {
-            case .success(let model):
-                self?.fetchRelatedCharacters(location: model)
-            case .failure:
-                break
-            }
-        }
-    }
-    
-    // MARK: - Private
     
     private func fetchRelatedCharacters(location: RMLocation) {
         let requests: [RMRequest] = location.residents.compactMap({
@@ -106,7 +107,7 @@ final class RMLocationDetailViewViewModel {
                 switch result {
                 case .success(let model):
                     characters.append(model)
-                case .failure(let failure):
+                case .failure:
                     break
                 }
             }

@@ -1,9 +1,9 @@
 import UIKit
 
 final class RMCharacterDetailViewController: UIViewController {
+    
     private let viewModel: RMCharacterDetailViewViewModel
     private let detailView: RMCharacterDetailView
-    
     
     // MARK: - Init
     
@@ -21,22 +21,32 @@ final class RMCharacterDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
-        title = viewModel.title
-        view.addSubview(detailView)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .action,
-            target: self,
-            action: #selector(didTapShare))
-        addConstraints()
-        
-        detailView.collectionView?.delegate = self
-        detailView.collectionView?.dataSource = self
+        setupUI()
+        setupCollectionView()
     }
 }
 
 private extension RMCharacterDetailViewController {
+    func setupUI() {
+        view.backgroundColor = .systemBackground
+        title = viewModel.title
+        view.addSubview(detailView)
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(didTapShare)
+        )
+        
+        addConstraints()
+    }
+    
     @objc func didTapShare() { }
+    
+    func setupCollectionView() {
+        detailView.collectionView?.delegate = self
+        detailView.collectionView?.dataSource = self
+    }
     
     func addConstraints() {
         NSLayoutConstraint.activate([
@@ -47,6 +57,8 @@ private extension RMCharacterDetailViewController {
         ])
     }
 }
+
+// MARK: - UICollectionView
 
 extension RMCharacterDetailViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -91,7 +103,7 @@ extension RMCharacterDetailViewController: UICollectionViewDataSource {
     }
 }
 
-extension RMCharacterDetailViewController: UICollectionViewDelegate { 
+extension RMCharacterDetailViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let sectionType = viewModel.sections[indexPath.section]
         

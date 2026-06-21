@@ -1,16 +1,13 @@
 import UIKit
 
 final class RMImageLoader {
+    
     static let shared  = RMImageLoader()
     
     private var imageDataCache = NSCache<NSString, NSData>()
     
     private init() {}
     
-    /// Get image content with URL
-    /// - Parameters:
-    ///   - url: Source url
-    ///   - completion: Callback
     public func dowmloadImage(_ url: URL, completion: @escaping (Result<Data, Error>) -> Void) {
         let key = url.absoluteString as NSString
         if let data = imageDataCache.object(forKey: key) {

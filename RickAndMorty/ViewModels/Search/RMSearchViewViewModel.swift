@@ -1,7 +1,7 @@
 import Foundation
 
 final class RMSearchViewViewModel {
-    let config: RMSearchViewController.Config
+    
     private var optionMap: [RMSearchInputViewViewModel.DynamicOption: String] = [:]
     private var searchText = ""
     
@@ -9,7 +9,10 @@ final class RMSearchViewViewModel {
     
     private var searchResultHandler: ((RMSearchResultViewModel) -> Void)?
     private var noResultHandler: (() -> Void)?
+    
     private var searchResultModel: Codable?
+    
+    let config: RMSearchViewController.Config
     
     // MARK: - Init
     
@@ -52,6 +55,49 @@ final class RMSearchViewViewModel {
         case .episode:
             makeSearchAPICall(RMGetAllEpisodesResponse.self, request: request)
         }
+    }
+    
+    public func set(query text: String) {
+        self.searchText = text
+    }
+    
+    public func set(value: String, for option: RMSearchInputViewViewModel.DynamicOption) {
+        optionMap[option] = value
+        let tuple = (option, value)
+        optionMapUpdateBlock?(tuple)
+    }
+    
+    public func registerOptionChangeBlock(
+        _ block: @escaping ((RMSearchInputViewViewModel.DynamicOption, String)) -> Void
+    ) {
+        self.optionMapUpdateBlock = block
+    }
+    
+    public func locationSearchResult(at index: Int) -> RMLocation? {
+        guard let searchModel = searchResultModel as? RMGetAllLocationsReponse else {
+            return nil
+        }
+        return searchModel.results[index]
+    }
+    
+    public func characterSearchResult(at index: Int) -> RMCharacter? {
+        guard let searchModel = searchResultModel as? RMGetAllCharactesResponse else {
+            return nil
+        }
+        return searchModel.results[index]
+    }
+    
+    public func episodeSearchResult(at index: Int) -> RMEpisode? {
+        guard let searchModel = searchResultModel as? RMGetAllEpisodesResponse else {
+            return nil
+        }
+        return searchModel.results[index]
+    }
+    
+    // MARK: - Private
+    
+    private func handleNoResults() {
+        noResultHandler?()
     }
     
     private func makeSearchAPICall<T: Codable>(_ type: T.Type, request: RMRequest) {
@@ -104,46 +150,5 @@ final class RMSearchViewViewModel {
         else {
             handleNoResults()
         }
-    }
-    
-    public func set(query text: String) {
-        self.searchText = text
-    }
-    
-    public func set(value: String, for option: RMSearchInputViewViewModel.DynamicOption) {
-        optionMap[option] = value
-        let tuple = (option, value)
-        optionMapUpdateBlock?(tuple)
-    }
-    
-    public func registerOptionChangeBlock(
-        _ block: @escaping ((RMSearchInputViewViewModel.DynamicOption, String)) -> Void
-    ) {
-        self.optionMapUpdateBlock = block
-    }
-    
-    public func locationSearchResult(at index: Int) -> RMLocation? {
-        guard let searchModel = searchResultModel as? RMGetAllLocationsReponse else {
-            return nil
-        }
-        return searchModel.results[index]
-    }
-    
-    public func characterSearchResult(at index: Int) -> RMCharacter? {
-        guard let searchModel = searchResultModel as? RMGetAllCharactesResponse else {
-            return nil
-        }
-        return searchModel.results[index]
-    }
-    
-    public func episodeSearchResult(at index: Int) -> RMEpisode? {
-        guard let searchModel = searchResultModel as? RMGetAllEpisodesResponse else {
-            return nil
-        }
-        return searchModel.results[index]
-    }
-    
-    private func handleNoResults() {
-        noResultHandler?()
     }
 }

@@ -3,21 +3,24 @@ import UIKit
 final class RMLocationViewController: UIViewController {
     
     private let primaryView = RMLocationView()
-    
     private let viewModel = RMLocationViewViewModel()
     
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupViews()
+        addConstraints()
+        addSearchButton()
+        primaryView.delegate = self
+        viewModel.delegate = self
+        viewModel.fetchLocations()
+    }
+    
+    private func setupViews() {
         view.addSubview(primaryView)
         view.backgroundColor = .systemBackground
         title = "Locations"
-        primaryView.delegate = self
-        addSearchButton()
-        addConstraints()
-        viewModel.delegate = self
-        viewModel.fetchLocations()
     }
     
     private func addSearchButton() {
@@ -46,7 +49,6 @@ final class RMLocationViewController: UIViewController {
 // MARK: - LocationViewModel Delegate
 
 extension RMLocationViewController: RMLocationViewModelDelegate {
-    
     func didFetchInitialLocations() {
         primaryView.configure(with: viewModel)
     }

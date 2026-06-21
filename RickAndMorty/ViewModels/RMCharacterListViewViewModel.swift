@@ -7,8 +7,10 @@ protocol RMCharacterListViewViewModelDelegate: AnyObject {
 }
 
 final class RMCharacterListViewViewModel: NSObject {
-    public weak var delegate: RMCharacterListViewViewModelDelegate?
     
+    private var cellViewModels: [RMCharacterCollectionViewCellViewModel] = []
+    
+    private var apiInfo: RMGetAllCharactesResponse.Info? = nil
     private var isLoadingMoreCharacters = false
     
     private var characters: [RMCharacter] = [] {
@@ -17,22 +19,7 @@ final class RMCharacterListViewViewModel: NSObject {
         }
     }
     
-    private var cellViewModels: [RMCharacterCollectionViewCellViewModel] = []
-    
-    private var apiInfo: RMGetAllCharactesResponse.Info? = nil
-    
-    private func createCellViewModels() {
-        for character in characters {
-            let viewModel = RMCharacterCollectionViewCellViewModel(
-                characterName: character.name,
-                characterStatus: character.status,
-                characterImageUrl: URL(string: character.image)
-            )
-            if !cellViewModels.contains(viewModel) {
-                cellViewModels.append(viewModel)
-            }
-        }
-    }
+    public weak var delegate: RMCharacterListViewViewModelDelegate?
     
     public func fetchCharacters() {
         RMService.shared.execute(
@@ -101,6 +88,19 @@ final class RMCharacterListViewViewModel: NSObject {
     public var shouldShowLoadMoreIndicator: Bool {
         return apiInfo?.next != nil
     }
+    
+    private func createCellViewModels() {
+        for character in characters {
+            let viewModel = RMCharacterCollectionViewCellViewModel(
+                characterName: character.name,
+                characterStatus: character.status,
+                characterImageUrl: URL(string: character.image)
+            )
+            if !cellViewModels.contains(viewModel) {
+                cellViewModels.append(viewModel)
+            }
+        }
+    }
 }
 
 // MARK: - CollectionView
@@ -137,11 +137,9 @@ extension RMCharacterListViewViewModel: UICollectionViewDataSource {
     }
 }
 
-extension RMCharacterListViewViewModel: UICollectionViewDelegate { }
-
 extension RMCharacterListViewViewModel: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-
+        
         let bounts = collectionView.bounds
         let width: CGFloat
         

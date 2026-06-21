@@ -9,12 +9,12 @@ protocol RMSearchViewDelegate: AnyObject {
 
 class RMSearchView: UIView {
     
-    weak var delegate: RMSearchViewDelegate?
-    
     private let viewModel: RMSearchViewViewModel
     private let searchInputView = RMSearchInputView()
     private let noResultsview = RMNoSearchResultsView()
     private let resultsView = RMSearchResultsView()
+    
+    weak var delegate: RMSearchViewDelegate?
     
     // MARK: - Init
     
@@ -92,7 +92,7 @@ private extension RMSearchView {
     }
 }
 
-// MARK: - CollectionView Delegates
+// MARK: - CollectionView
 
 extension RMSearchView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -111,7 +111,7 @@ extension RMSearchView: UICollectionViewDelegate {
     }
 }
 
-// MARK: - RMSearchInputView Delegate
+// MARK: - RMSearchInputViewDelegate
 
 extension RMSearchView: RMSearchInputViewDelegate {
     func rmSearchInputView(_ inputView: RMSearchInputView, didSlectOption option: RMSearchInputViewViewModel.DynamicOption) {

@@ -10,7 +10,7 @@ protocol RMSearchInputViewDelegate: AnyObject {
 
 final class RMSearchInputView: UIView {
     
-    weak var delegate: RMSearchInputViewDelegate?
+    private var stackView: UIStackView?
     
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
@@ -30,7 +30,7 @@ final class RMSearchInputView: UIView {
         }
     }
     
-    private var stackView: UIStackView?
+    weak var delegate: RMSearchInputViewDelegate?
     
     // MARK: - Init
     

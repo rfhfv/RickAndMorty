@@ -1,8 +1,9 @@
 import Foundation
 
-/// Manages in memory session scoped API caches
 final class RMAPICacheManager {
+    
     private var cacheDictionary: [RMEndpoint: NSCache<NSString, NSData>] = [:]
+    
     init() {
         setupCache()
     }

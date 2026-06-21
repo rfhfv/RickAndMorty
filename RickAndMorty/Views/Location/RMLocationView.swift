@@ -6,8 +6,6 @@ protocol RMLocationViewDelegate: AnyObject {
 
 final class RMLocationView: UIView {
     
-    public weak var delegate: RMLocationViewDelegate?
-    
     private var viewModel: RMLocationViewViewModel? {
         didSet {
             spinner.stopAnimating()
@@ -41,6 +39,8 @@ final class RMLocationView: UIView {
         spinner.translatesAutoresizingMaskIntoConstraints = false
         return spinner
     }()
+    
+    public weak var delegate: RMLocationViewDelegate?
     
     // MARK: - Init
     
@@ -91,6 +91,8 @@ private extension RMLocationView {
     }
 }
 
+// MARK: - UITableView
+
 extension RMLocationView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel?.cellViewModels.indices.count ?? 0
@@ -122,6 +124,8 @@ extension RMLocationView: UITableViewDelegate {
     }
 }
 
+// MARK: - UIScrollViewDelegate
+
 extension RMLocationView: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard let viewModel = viewModel,
@@ -137,9 +141,7 @@ extension RMLocationView: UIScrollViewDelegate {
             let totalScrollViewFixedHeight = scrollView.frame.size.height
             
             if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
-                DispatchQueue.main.async {
-                    self?.showLoadingIndicator()
-                }
+                self?.showLoadingIndicator()
                 viewModel.fetchAdditionalLocations()
             }
             t.invalidate()

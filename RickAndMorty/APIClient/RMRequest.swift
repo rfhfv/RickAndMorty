@@ -1,11 +1,11 @@
 import Foundation
 
 final class RMRequest {
+    
     private struct Constants {
         static let baseURL = "https://rickandmortyapi.com/api"
     }
     
-    let endpoint: RMEndpoint
     private let pathComponents: [String]
     private let queryParameters: [URLQueryItem]
     
@@ -32,11 +32,12 @@ final class RMRequest {
         return string
     }
     
+    public let httMethod = "GET"
+    public let endpoint: RMEndpoint
+    
     public var url: URL? {
         return URL(string: urlString)
     }
-    
-    public let httMethod = "GET"
     
     // MARK: - Public
     
@@ -50,8 +51,6 @@ final class RMRequest {
         self.queryParameters = queryParameters
     }
     
-    /// Attemp to create request
-    /// - Parameter url: URL to parse
     convenience init?(url: URL) {
         let string = url.absoluteString
         if !string.contains(Constants.baseURL) {

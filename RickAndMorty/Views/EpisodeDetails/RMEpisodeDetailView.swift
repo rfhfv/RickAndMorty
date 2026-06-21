@@ -9,7 +9,7 @@ protocol RMEpisodeDetailViewDelegate: AnyObject {
 
 final class RMEpisodeDetailView: UIView {
     
-    public weak var delegate: RMEpisodeDetailViewDelegate?
+    private var collectionView: UICollectionView?
     
     private var viewModel: RMEpisodeDetailViewViewModel? {
         didSet {
@@ -22,14 +22,14 @@ final class RMEpisodeDetailView: UIView {
         }
     }
     
-    private var collectionView: UICollectionView?
-    
     private let spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView()
         spinner.hidesWhenStopped = true
         spinner.translatesAutoresizingMaskIntoConstraints = false
         return spinner
     }()
+    
+    public weak var delegate: RMEpisodeDetailViewDelegate?
     
     // MARK: - Init
     

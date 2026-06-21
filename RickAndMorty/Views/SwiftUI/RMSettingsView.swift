@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct RMSettingsView: View {
+    
     let viewModel: RMSettingsViewViewModel
     
     init(viewModel: RMSettingsViewViewModel) {
@@ -28,7 +29,7 @@ struct RMSettingsView: View {
             }
             .padding(.bottom, 3)
             .onTapGesture {
-                viewModel.onTaphandler(viewModel.type)
+                viewModel.onTapHandler(viewModel.type)
             }
         }
     }

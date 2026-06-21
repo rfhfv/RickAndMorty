@@ -1,6 +1,7 @@
 import UIKit
 
 final class RMCharacterInfoCollectionViewCell: UICollectionViewCell {
+    
     static let cellIdentifier = String(describing: RMCharacterInfoCollectionViewCell.self)
     
     private let valueLabel: UILabel = {

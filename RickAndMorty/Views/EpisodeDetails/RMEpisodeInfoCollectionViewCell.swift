@@ -1,6 +1,7 @@
 import UIKit
 
 final class RMEpisodeInfoCollectionViewCell: UICollectionViewCell {
+    
     static let cellIdentifier = String(describing: RMEpisodeInfoCollectionViewCell.self)
     
     private let titleLabel: UILabel = {

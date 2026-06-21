@@ -1,6 +1,7 @@
 import UIKit
 
 final class RMCharacterPhotoCollectionViewCell: UICollectionViewCell {
+    
     static let cellIdentifier = String(describing: RMCharacterPhotoCollectionViewCell.self)
     
     private let imageView: UIImageView = {
@@ -58,4 +59,3 @@ private extension RMCharacterPhotoCollectionViewCell {
         ])
     }
 }
-

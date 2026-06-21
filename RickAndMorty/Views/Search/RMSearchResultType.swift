@@ -1,9 +1,10 @@
 import Foundation
 
 final class RMSearchResultViewModel {
-    public private(set) var results: RMSearchResultType
+    
     private var next: String?
     
+    public private(set) var results: RMSearchResultType
     public private(set) var isLoadingMoreResults = false
     
     public var shouldShowLoadMoreIndicator: Bool {

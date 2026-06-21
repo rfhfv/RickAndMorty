@@ -1,6 +1,7 @@
 import UIKit
 
 final class RMLocationViewTableViewCell: UITableViewCell {
+    
     static let cellidentifier = String(describing: RMLocationViewTableViewCell.self)
     
     private let nameLabel: UILabel = {

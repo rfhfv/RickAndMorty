@@ -8,7 +8,7 @@ final class RMEpisodeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         title = "Episode"
-        setUpView()
+        setupView()
         addSearchButton()
     }
     
@@ -16,18 +16,19 @@ final class RMEpisodeViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .search,
             target: self,
-            action: #selector(didtapShearch))
+            action: #selector(didTapSearch))
     }
     
-    @objc private func didtapShearch() {
+    @objc private func didTapSearch() {
         let vc = RMSearchViewController(config: .init(type: .episode))
         navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    private func setUpView() {
+    private func setupView() {
         episodeListView.delegate = self
         view.addSubview(episodeListView)
+        
         NSLayoutConstraint.activate([
             episodeListView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             episodeListView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),

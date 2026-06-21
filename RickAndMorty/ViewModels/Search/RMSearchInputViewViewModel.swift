@@ -1,7 +1,6 @@
 import Foundation
 
 final class RMSearchInputViewViewModel {
-    private let type: RMSearchViewController.Config.`Type`
     
     enum DynamicOption: String {
         case status = "Status"
@@ -27,6 +26,8 @@ final class RMSearchInputViewViewModel {
             }
         }
     }
+    
+    private let type: RMSearchViewController.Config.`Type`
     
     init(type: RMSearchViewController.Config.`Type`) {
         self.type = type

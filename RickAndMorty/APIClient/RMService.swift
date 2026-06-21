@@ -1,10 +1,15 @@
 import Foundation
 
 final class RMService {
+    
+    enum RMServiceError: Error {
+        case failedToCreateRequest
+        case failedToGetData
+    }
+    
     static let shared = RMService()
     
     private let cacheManager = RMAPICacheManager()
-    
     private let session: URLSession
     
     private init() {
@@ -17,10 +22,7 @@ final class RMService {
         self.session = URLSession(configuration: configuration)
     }
     
-    enum RMServiceError: Error {
-        case failedToCreateRequest
-        case failedToGetData
-    }
+    // MARK: - Public
     
     public func execute<T: Codable>(
         _ request: RMRequest,
@@ -31,7 +33,6 @@ final class RMService {
             for: request.endpoint,
             url: request.url
         ) {
-            print("Using cached API Response")
             do {
                 let result = try JSONDecoder().decode(type.self, from: cachedData)
                 completion(.success(result))

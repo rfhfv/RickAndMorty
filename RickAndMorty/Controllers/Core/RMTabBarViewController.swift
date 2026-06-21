@@ -5,10 +5,10 @@ final class RMTabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        setUpTabs()
+        setupTabs()
     }
     
-    private func setUpTabs() {
+    private func setupTabs() {
         let characterVC = RMCharacterViewController()
         let locationVC = RMLocationViewController()
         let episodeVC = RMEpisodeViewController()

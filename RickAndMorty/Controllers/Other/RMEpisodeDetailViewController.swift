@@ -45,6 +45,8 @@ private extension RMEpisodeDetailViewController {
         viewModel.fetchEpisodeData()
     }
     
+    @objc func didtapShare() {}
+    
     func setupConstraints() {
         NSLayoutConstraint.activate([
             detailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -53,10 +55,6 @@ private extension RMEpisodeDetailViewController {
             detailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-    
-    @objc func didtapShare() {
-        
-    }
 }
 
 // MARK: - ViewModel Delegate
@@ -64,7 +62,6 @@ private extension RMEpisodeDetailViewController {
 extension RMEpisodeDetailViewController: RMEpisodeDetailViewViewModelDelegate {
     func didFinishEpisodeDetails() {
         detailView.configure(with: viewModel)
-        
     }
 }
 

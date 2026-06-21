@@ -1,9 +1,6 @@
 import UIKit
 
-/// View for single charcter info
 final class RMCharacterDetailView: UIView {
-    
-    public var collectionView: UICollectionView?
     
     private let viewModel: RMCharacterDetailViewViewModel
     
@@ -14,17 +11,14 @@ final class RMCharacterDetailView: UIView {
         return spinner
     }()
     
+    public var collectionView: UICollectionView?
+    
     // MARK: - Init
     
     init(frame: CGRect, viewModel: RMCharacterDetailViewViewModel) {
         self.viewModel = viewModel
         super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-        backgroundColor = .systemBackground
-        let collectionView = createCollectionView()
-        self.collectionView = collectionView
-        addSubviews(collectionView, spinner)
-        addConstraints()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
@@ -33,7 +27,20 @@ final class RMCharacterDetailView: UIView {
 }
 
 private extension RMCharacterDetailView {
-    func addConstraints() {
+    func setupUI() {
+        setupViews()
+        setupConstraints()
+    }
+    
+    func setupViews() {
+        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .systemBackground
+        let collectionView = createCollectionView()
+        self.collectionView = collectionView
+        addSubviews(collectionView, spinner)
+    }
+    
+    func setupConstraints() {
         guard let collectionView = collectionView else { return }
         
         NSLayoutConstraint.activate([

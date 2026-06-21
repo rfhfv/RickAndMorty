@@ -9,7 +9,7 @@ protocol RMLocationDetailViewDelegate: AnyObject {
 
 final class RMLocationDetailView: UIView {
     
-    public weak var delegate: RMLocationDetailViewDelegate?
+    private var collectionView: UICollectionView?
     
     private var viewModel: RMLocationDetailViewViewModel? {
         didSet {
@@ -22,14 +22,14 @@ final class RMLocationDetailView: UIView {
         }
     }
     
-    private var collectionView: UICollectionView?
-    
     private let spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView()
         spinner.hidesWhenStopped = true
         spinner.translatesAutoresizingMaskIntoConstraints = false
         return spinner
     }()
+    
+    public weak var delegate: RMLocationDetailViewDelegate?
     
     // MARK: - Init
     
@@ -156,6 +156,8 @@ private extension RMLocationDetailView {
         ])
     }
 }
+
+// MARK: - UICollectionView
 
 extension RMLocationDetailView: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {

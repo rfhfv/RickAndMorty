@@ -24,6 +24,7 @@ final class RMSearchViewController: UIViewController {
                 }
             }
         }
+        
         let type: `Type`
     }
     
@@ -45,15 +46,7 @@ final class RMSearchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = viewModel.config.type.title
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "Search",
-            style: .done,
-            target: self,
-            action: #selector(didTapExecuteSearch))
-        searchView.delegate = self
-        view.backgroundColor = .systemBackground
-        view.addSubview(searchView)
+        setupViews()
         addContraints()
         
     }
@@ -61,6 +54,22 @@ final class RMSearchViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         searchView.presentkKeyboard()
+    }
+    
+    private func setupViews() {
+        title = viewModel.config.type.title
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "Search",
+            style: .done,
+            target: self,
+            action: #selector(didTapExecuteSearch)
+        )
+        
+        searchView.delegate = self
+        
+        view.backgroundColor = .systemBackground
+        view.addSubview(searchView)
     }
     
     @objc private func didTapExecuteSearch() {
