@@ -26,19 +26,19 @@ final class RMTabBarViewController: UITabBarController {
         
         nav1.tabBarItem = UITabBarItem(
             title: "Characters",
-            image: UIImage(systemName: "person.fill"),
+            image: UIImage(systemName: "character.duployan"),
             tag: 1)
         nav2.tabBarItem = UITabBarItem(
             title: "Locations",
-            image: UIImage(systemName: "globe.europe.africa.fill"),
+            image: UIImage(systemName: "globe.central.south.asia"),
             tag: 2)
         nav3.tabBarItem = UITabBarItem(
             title: "Episodes",
-            image: UIImage(systemName: "tv.fill"),
+            image: UIImage(systemName: "list.dash.header.rectangle"),
             tag: 3)
         nav4.tabBarItem = UITabBarItem(
             title: "Settings",
-            image:  UIImage(systemName: "gearshape.fill"),
+            image:  UIImage(systemName: "gearshape"),
             tag: 4)
         
         for nav in [nav1, nav2, nav3, nav4] {

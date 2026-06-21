@@ -7,6 +7,7 @@ final class RMCharacterPhotoCollectionViewCell: UICollectionViewCell {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -52,10 +53,12 @@ private extension RMCharacterPhotoCollectionViewCell {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            imageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            imageView.heightAnchor.constraint(equalToConstant: 100),
+            imageView.widthAnchor.constraint(equalToConstant: 100)
         ])
     }
 }

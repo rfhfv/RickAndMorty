@@ -14,11 +14,19 @@ enum RMCharacterStatus: String, Codable {
         }
     }
     
-    var color: UIColor {
+    var backgroudColor: UIColor {
         switch self {
-        case .alive:   return .systemGreen
-        case .dead:    return .systemRed
-        case .unknown: return .systemYellow
+        case .alive:   return .cmGreen
+        case .dead:    return .cmRed
+        case .unknown: return .cmYellow
+        }
+    }
+    
+    var textColor: UIColor {
+        switch self {
+        case .alive:   return .cmDarkGreen
+        case .dead:    return .cmDarkRed
+        case .unknown: return .cmDarkYellow
         }
     }
 }

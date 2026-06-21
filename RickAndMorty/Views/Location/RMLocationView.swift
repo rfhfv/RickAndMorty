@@ -29,6 +29,7 @@ final class RMLocationView: UIView {
         table.register(RMLocationViewTableViewCell.self, forCellReuseIdentifier: RMLocationViewTableViewCell.cellidentifier)
         table.alpha = 0
         table.isHidden = true
+        table.separatorStyle = .none
         table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()

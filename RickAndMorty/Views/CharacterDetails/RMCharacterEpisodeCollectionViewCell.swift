@@ -6,21 +6,21 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     
     private let seasonLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
+        label.font = .systemFont(ofSize: 16, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 22, weight: .regular)
+        label.font = .systemFont(ofSize: 14, weight: .regular)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let airDateLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .light)
+        label.font = .systemFont(ofSize: 14, weight: .light)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -50,7 +50,6 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
             self?.airDateLabel.text = "Aired on " + data.air_date
         }
         viewModel.fetchEpisode()
-        contentView.layer.borderColor = viewModel.borderColor.cgColor
     }
 }
 
@@ -61,9 +60,8 @@ private extension RMCharacterEpisodeCollectionViewCell {
     }
     
     func setupViews() {
-        contentView.layer.borderWidth = 2
         contentView.layer.cornerRadius = 8
-        contentView.backgroundColor = .tertiarySystemBackground
+        contentView.backgroundColor = .secondarySystemBackground
         contentView.addSubviews(seasonLabel, nameLabel, airDateLabel)
     }
     

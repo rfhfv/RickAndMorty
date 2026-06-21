@@ -106,8 +106,7 @@ final class RMEpisodeListViewViewModel: NSObject {
     private func createCellViewModels() {
         for episode in episodes {
             let viewModel = RMCharacterEpisodeCollectionViewCellViewModel(
-                episodeDataUrl: URL(string: episode.url),
-                borderColor: borderColors.randomElement() ?? .systemBlue
+                episodeDataUrl: URL(string: episode.url)
             )
             
             if !cellViewModels.contains(viewModel) {

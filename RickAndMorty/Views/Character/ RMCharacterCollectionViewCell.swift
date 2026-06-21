@@ -22,11 +22,10 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     
     private let statusLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
         label.textAlignment = .center
         label.layer.cornerRadius = 14
         label.clipsToBounds = true
-        label.font = .systemFont(ofSize: 12, weight: .regular)
+        label.font = .systemFont(ofSize: 12, weight: .semibold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -60,7 +59,8 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
     public func configure(with viewModel: RMCharacterCollectionViewCellViewModel) {
         nameLabel.text = viewModel.characterName
         statusLabel.text = viewModel.characterStatusText
-        statusLabel.backgroundColor = viewModel.characterColor
+        statusLabel.textColor = viewModel.characterTextColor
+        statusLabel.backgroundColor = viewModel.characterBackgroundColor
         
         viewModel.fetchImage { result in
             switch result {

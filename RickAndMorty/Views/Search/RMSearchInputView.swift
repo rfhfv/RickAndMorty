@@ -15,6 +15,7 @@ final class RMSearchInputView: UIView {
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "Search"
+        searchBar.backgroundImage = UIImage()
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
     }()
@@ -122,10 +123,10 @@ private extension RMSearchInputView {
         addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            stackView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 4),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4)
         ])
         return stackView
     }

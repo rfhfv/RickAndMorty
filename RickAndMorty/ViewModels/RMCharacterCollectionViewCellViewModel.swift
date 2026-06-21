@@ -11,7 +11,8 @@ final class RMCharacterCollectionViewCellViewModel: Hashable, Equatable {
         return characterStatus.text.uppercased()
     }
     
-    public var characterColor: UIColor { characterStatus.color }
+    public var characterBackgroundColor: UIColor { characterStatus.backgroudColor }
+    public var characterTextColor: UIColor { characterStatus.textColor }
     
     // MARK: - Init
     

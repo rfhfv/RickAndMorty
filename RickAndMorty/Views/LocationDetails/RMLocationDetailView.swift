@@ -91,13 +91,15 @@ private extension RMLocationDetailView {
             widthDimension: .fractionalWidth(1),
             heightDimension: .fractionalHeight(1)))
         
-        item.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10 )
+        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
         
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: .init(
                 widthDimension: .fractionalWidth(1),
-                heightDimension: .absolute(80)),
+                heightDimension: .absolute(60)),
             subitems: [item])
+        
+        group.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 0, bottom: 0, trailing: 0)
         
         let section = NSCollectionLayoutSection(group: group)
         return section

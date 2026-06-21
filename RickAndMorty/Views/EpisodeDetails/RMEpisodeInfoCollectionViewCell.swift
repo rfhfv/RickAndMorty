@@ -6,17 +6,16 @@ final class RMEpisodeInfoCollectionViewCell: UICollectionViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .medium)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let valueLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .medium)
+        label.font = .systemFont(ofSize: 16, weight: .regular)
         label.textAlignment = .right
         label.numberOfLines = 0
-        label.text = "hello"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -53,8 +52,6 @@ private extension RMEpisodeInfoCollectionViewCell {
         contentView.backgroundColor = .secondarySystemBackground
         layer.cornerRadius = 8
         layer.masksToBounds = true
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.secondaryLabel.cgColor
     }
     
     func setupConstraints() {

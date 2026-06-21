@@ -1,11 +1,6 @@
 import UIKit
 
 final class RMCharacterDetailViewViewModel {
-    private let character: RMCharacter
-    
-    public var episodes: [String] {
-        character.episode
-    }
     
     enum SectionType {
         case photo(viewModel: RMCharacterPhotoCollectionViewCellViewModel)
@@ -13,33 +8,7 @@ final class RMCharacterDetailViewViewModel {
         case episodes(viewModel: [RMCharacterEpisodeCollectionViewCellViewModel])
     }
     
-    public var sections: [SectionType] = []
-    
-    // MARK: - Init
-    
-    init(character: RMCharacter) {
-        self.character = character
-        setupSection()
-    }
-    
-    private func setupSection() {
-        sections = [
-            .photo(viewModel: .init(imageUrl: URL(string: character.image))),
-            .information(viewModel: [
-                .init(type: .status, value: character.status.text),
-                .init(type: .gender, value: character.gender.rawValue),
-                .init(type: .type, value: character.type),
-                .init(type: .species, value: character.species),
-                .init(type: .origin, value: character.origin.name),
-                .init(type: .location, value: character.location.name),
-                .init(type: .created, value: character.created),
-                .init(type: .episodeCount, value: "\(character.episode.count)"),
-            ]),
-            .episodes(viewModel: character.episode.compactMap ({
-                return RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: $0))
-            }))
-        ]
-    }
+    private let character: RMCharacter
     
     private var requestUrl: URL? {
         return URL(string: character.url)
@@ -47,6 +16,19 @@ final class RMCharacterDetailViewViewModel {
     
     public var title: String {
         character.name.uppercased()
+    }
+    
+    public var sections: [SectionType] = []
+    
+    public var episodes: [String] {
+        character.episode
+    }
+    
+    // MARK: - Init
+    
+    init(character: RMCharacter) {
+        self.character = character
+        setupSection()
     }
     
     // MARK: - Layouts
@@ -88,15 +70,15 @@ final class RMCharacterDetailViewViewModel {
         
         item.contentInsets = NSDirectionalEdgeInsets(
             top: 2,
-            leading: 2,
-            bottom: 2,
+            leading: 10,
+            bottom: 10,
             trailing: 2
         )
         
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(150)
+                heightDimension: .absolute(70)
             ),
             subitems:  UIDevice.isiPhone ? [item, item] : [item, item, item, item]
         )
@@ -116,7 +98,7 @@ final class RMCharacterDetailViewViewModel {
         
         item.contentInsets = NSDirectionalEdgeInsets(
             top: 10,
-            leading: 4,
+            leading: 10,
             bottom: 10,
             trailing: 8
         )
@@ -124,7 +106,7 @@ final class RMCharacterDetailViewViewModel {
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(UIDevice.isiPhone ? 0.8 : 0.4),
-                heightDimension: .absolute(150)),
+                heightDimension: .absolute(100)),
             subitems: [item]
         )
         
@@ -132,5 +114,24 @@ final class RMCharacterDetailViewViewModel {
         section.orthogonalScrollingBehavior = .groupPaging
         
         return section
+    }
+    
+    private func setupSection() {
+        sections = [
+            .photo(viewModel: .init(imageUrl: URL(string: character.image))),
+            .information(viewModel: [
+                .init(type: .status, value: character.status.text),
+                .init(type: .gender, value: character.gender.rawValue),
+                .init(type: .type, value: character.type),
+                .init(type: .species, value: character.species),
+                .init(type: .origin, value: character.origin.name),
+                .init(type: .location, value: character.location.name),
+                .init(type: .created, value: character.created),
+                .init(type: .episodeCount, value: "\(character.episode.count)"),
+            ]),
+            .episodes(viewModel: character.episode.compactMap ({
+                return RMCharacterEpisodeCollectionViewCellViewModel(episodeDataUrl: URL(string: $0))
+            }))
+        ]
     }
 }

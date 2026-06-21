@@ -31,7 +31,10 @@ struct RMSettingsView: View {
             .onTapGesture {
                 viewModel.onTapHandler(viewModel.type)
             }
+            .listRowBackground(Color(.secondarySystemBackground))
         }
+        .scrollContentBackground(.hidden)
+        .background(Color(.systemBackground))
     }
 }
 

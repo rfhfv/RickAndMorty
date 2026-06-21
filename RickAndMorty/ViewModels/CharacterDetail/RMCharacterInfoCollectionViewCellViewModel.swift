@@ -1,46 +1,6 @@
 import UIKit
 
 final class RMCharacterInfoCollectionViewCellViewModel {
-    private let type: `Type`
-    private let value: String
-    
-    static let dateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSZ"
-        formatter.timeZone = .current
-        return formatter
-    }()
-    
-    static let shortDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .short
-        formatter.timeZone = .current
-        return formatter
-    }()
-    
-    public var title: String {
-        self.type.displayTitle
-    }
-    
-    public var displayValue: String {
-        if value.isEmpty { return "None" }
-        
-        if let date = Self.dateFormatter.date(from: value),
-           type == .created {
-            return Self.shortDateFormatter.string(from: date)
-        }
-        
-        return value
-    }
-    
-    public var iconImage: UIImage? {
-        return type.iconImage
-    }
-    
-    public var tintColor: UIColor {
-        return type.tintColor
-    }
     
     enum `Type`: String {
         case status
@@ -65,32 +25,62 @@ final class RMCharacterInfoCollectionViewCellViewModel {
             }
         }
         
-        var iconImage: UIImage? {
-            switch self {
-            case .status: return UIImage(systemName: "bell")
-            case .gender: return UIImage(systemName: "bell")
-            case .type: return UIImage(systemName: "bell")
-            case .species: return UIImage(systemName: "bell")
-            case .origin: return UIImage(systemName: "bell")
-            case .created: return UIImage(systemName: "bell")
-            case .location: return UIImage(systemName: "bell")
-            case .episodeCount: return UIImage(systemName: "bell")
-            }
-        }
-        
         var displayTitle: String {
             switch self {
-            case .status: return rawValue.uppercased()
-            case .gender: return rawValue.uppercased()
-            case .type: return rawValue.uppercased()
-            case .species: return rawValue.uppercased()
-            case .origin: return rawValue.uppercased()
-            case .created: return rawValue.uppercased()
-            case .location: return rawValue.uppercased()
-            case .episodeCount: return "EPISODE COUNT"
+            case .status: return rawValue
+            case .gender: return rawValue
+            case .type: return rawValue
+            case .species: return rawValue
+            case .origin: return rawValue
+            case .created: return rawValue
+            case .location: return rawValue
+            case .episodeCount: return "Episode count"
             }
         }
     }
+    
+    private let type: `Type`
+    private let value: String
+    
+    private var characterStatus: RMCharacterStatus = .unknown
+    
+    static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSZ"
+        formatter.timeZone = .current
+        return formatter
+    }()
+    
+    static let shortDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.timeStyle = .short
+        formatter.timeZone = .current
+        return formatter
+    }()
+    
+    public var characterBackgroundColor: UIColor { characterStatus.backgroudColor }
+    public var characterTextColor: UIColor { characterStatus.textColor }
+    
+    public var title: String {
+        self.type.displayTitle.uppercased()
+    }
+    
+    public var displayValue: String {
+        if value.isEmpty { return "None" }
+        
+        if let date = Self.dateFormatter.date(from: value),
+           type == .created {
+            return Self.shortDateFormatter.string(from: date)
+        }
+        
+        return value
+    }
+    
+    public var tintColor: UIColor {
+        return type.tintColor
+    }
+    
     
     init(
         type: `Type`,
