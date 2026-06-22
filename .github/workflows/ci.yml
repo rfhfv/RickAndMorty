@@ -24,3 +24,14 @@ jobs:
             -destination "generic/platform=iOS Simulator" \
             clean build \
             2>&1 | grep -E "error:|warning:|BUILD"
+
+      - name: List Simulators
+        run: xcrun simctl list devices available 
+      - name: Test
+        run: |
+          xcodebuild \
+             -scheme RickAndMorty \
+             -destination "platform=iOS Simulator,name=iPhone 16,OS=latest" \
+             test \
+             2>&1 | grep -E "error:|Test Case|passed|failed|BUILD"
+
