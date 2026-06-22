@@ -1,15 +1,15 @@
 import UIKit
 
-protocol RMCharacterListViewDelegate: AnyObject {
-    func rmCharacterListView(
-        _ characterListView: RMCharacterListView,
-        didSelectCharacter character: RMCharacter
+protocol RMEpisodeListViewDelegate: AnyObject {
+    func rmEpisodeListView(
+        _ episodeListView: RMEpisodeListView,
+        didSelectEpisode episode: RMEpisode
     )
 }
 
-final class RMCharacterListView: UIView {
-    public weak var delegate: RMCharacterListViewDelegate?
-    private let viewModel = RMCharacterListViewViewModel()
+final class RMEpisodeListView: UIView {
+    
+    private let viewModel = RMEpisodeListViewViewModel()
     
     private let spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: .large)
@@ -25,30 +25,47 @@ final class RMCharacterListView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.isHidden = true
         collectionView.alpha = 0
-        collectionView.register(RMCharacterCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterCollectionViewCell.identifier)
+        collectionView.register(RMCharacterEpisodeCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterEpisodeCollectionViewCell.cellIdentifier)
         collectionView.register(RMFooterLoadingCollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: RMFooterLoadingCollectionReusableView.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
     
+    public weak var delegate: RMEpisodeListViewDelegate?
+    
     // MARK: - Init
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-        addSubviews(collectionView, spinner)
-        addConstraints()
-        spinner.startAnimating()
+        setupUI()
         viewModel.delegate = self
-        viewModel.fetchCharacters()
         setupCollectionView()
+        viewModel.fetchEpisodes()
     }
     
     required init?(coder: NSCoder) {
         fatalError("Unsupported")
     }
+}
+
+private extension RMEpisodeListView {
+    func setupUI() {
+        setupViews()
+        setupConstraints()
+    }
     
-    private func addConstraints() {
+    func setupCollectionView() {
+        collectionView.dataSource = viewModel
+        collectionView.delegate = viewModel
+    }
+    
+    func setupViews() {
+        translatesAutoresizingMaskIntoConstraints = false
+        addSubviews(collectionView, spinner)
+        spinner.startAnimating()
+    }
+    
+    func setupConstraints() {
         NSLayoutConstraint.activate([
             spinner.widthAnchor.constraint(equalToConstant: 100),
             spinner.heightAnchor.constraint(equalToConstant: 100),
@@ -61,19 +78,14 @@ final class RMCharacterListView: UIView {
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
-    
-    private func setupCollectionView() {
-        collectionView.dataSource = viewModel
-        collectionView.delegate = viewModel
-    }
 }
 
-extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
-    func didSelectCharacter(_ character: RMCharacter) {
-        delegate?.rmCharacterListView(self, didSelectCharacter: character)
+extension RMEpisodeListView: RMEpisodeListViewViewModelDelegate {
+    func didSelectEpisode(_ episode: RMEpisode) {
+        delegate?.rmEpisodeListView(self, didSelectEpisode: episode)
     }
     
-    func didLoadInitalCharacters() {
+    func didLoadInitalEpisodes() {
         spinner.stopAnimating()
         collectionView.isHidden = false
         collectionView.reloadData()
@@ -83,7 +95,7 @@ extension RMCharacterListView: RMCharacterListViewViewModelDelegate {
         }
     }
     
-    func didLoadMoreCharacters(with newIndexPath: [IndexPath]) {
+    func didLoadMoreEpisodes(with newIndexPath: [IndexPath]) {
         collectionView.performBatchUpdates {
             self.collectionView.insertItems(at: newIndexPath)
         }

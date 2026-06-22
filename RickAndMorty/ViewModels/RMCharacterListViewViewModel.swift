@@ -7,8 +7,10 @@ protocol RMCharacterListViewViewModelDelegate: AnyObject {
 }
 
 final class RMCharacterListViewViewModel: NSObject {
-    public weak var delegate: RMCharacterListViewViewModelDelegate?
     
+    private var cellViewModels: [RMCharacterCollectionViewCellViewModel] = []
+    
+    private var apiInfo: RMGetAllCharactesResponse.Info? = nil
     private var isLoadingMoreCharacters = false
     
     private var characters: [RMCharacter] = [] {
@@ -17,22 +19,7 @@ final class RMCharacterListViewViewModel: NSObject {
         }
     }
     
-    private var cellViewModels: [RMCharacterCollectionViewCellViewModel] = []
-    
-    private var apiInfo: RMGetAllCharactesResponse.Info? = nil
-    
-    private func createCellViewModels() {
-        for character in characters {
-            let viewModel = RMCharacterCollectionViewCellViewModel(
-                characterName: character.name,
-                characterStatus: character.status,
-                characterImageUrl: URL(string: character.image)
-            )
-            if !cellViewModels.contains(viewModel) {
-                cellViewModels.append(viewModel)
-            }
-        }
-    }
+    public weak var delegate: RMCharacterListViewViewModelDelegate?
     
     public func fetchCharacters() {
         RMService.shared.execute(
@@ -59,7 +46,6 @@ final class RMCharacterListViewViewModel: NSObject {
         guard !isLoadingMoreCharacters else {
             return
         }
-        print("Fetching more data")
         isLoadingMoreCharacters = true
         guard let request = RMRequest(url: url) else {
             isLoadingMoreCharacters = false
@@ -102,6 +88,19 @@ final class RMCharacterListViewViewModel: NSObject {
     public var shouldShowLoadMoreIndicator: Bool {
         return apiInfo?.next != nil
     }
+    
+    private func createCellViewModels() {
+        for character in characters {
+            let viewModel = RMCharacterCollectionViewCellViewModel(
+                characterName: character.name,
+                characterStatus: character.status,
+                characterImageUrl: URL(string: character.image)
+            )
+            if !cellViewModels.contains(viewModel) {
+                cellViewModels.append(viewModel)
+            }
+        }
+    }
 }
 
 // MARK: - CollectionView
@@ -113,7 +112,7 @@ extension RMCharacterListViewViewModel: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: RMCharacterCollectionViewCell.identifier, for: indexPath) as? RMCharacterCollectionViewCell else { return UICollectionViewCell() }
+            withReuseIdentifier: RMCharacterCollectionViewCell.cellIdentifier, for: indexPath) as? RMCharacterCollectionViewCell else { return UICollectionViewCell() }
         
         cell.configure(with: cellViewModels[indexPath.item])
         return cell
@@ -138,12 +137,18 @@ extension RMCharacterListViewViewModel: UICollectionViewDataSource {
     }
 }
 
-extension RMCharacterListViewViewModel: UICollectionViewDelegate { }
-
 extension RMCharacterListViewViewModel: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let bounts = UIScreen.main.bounds
-        let width = (bounts.width - 30) / 2
+        
+        let bounts = collectionView.bounds
+        let width: CGFloat
+        
+        if UIDevice.isiPhone {
+            width = (bounts.width - 30) / 2
+        } else {
+            width = (bounts.width - 50) / 4
+        }
+        
         return CGSize(
             width: width,
             height: width * 1.5

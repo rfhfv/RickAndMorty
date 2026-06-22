@@ -1,11 +1,11 @@
 import Foundation
 
 final class RMRequest {
+    
     private struct Constants {
         static let baseURL = "https://rickandmortyapi.com/api"
     }
     
-    private let endpoint: RMEndpoint
     private let pathComponents: [String]
     private let queryParameters: [URLQueryItem]
     
@@ -17,7 +17,7 @@ final class RMRequest {
         if !pathComponents.isEmpty {
             string += "/"
             pathComponents.forEach({
-                string += "/\($0)"
+                string += "\($0)"
             })
         }
         
@@ -32,11 +32,12 @@ final class RMRequest {
         return string
     }
     
+    public let httMethod = "GET"
+    public let endpoint: RMEndpoint
+    
     public var url: URL? {
         return URL(string: urlString)
     }
-    
-    public let httMethod = "GET"
     
     // MARK: - Public
     
@@ -60,8 +61,15 @@ final class RMRequest {
             let components = trimmed.components(separatedBy: "/")
             if !components.isEmpty {
                 let endpointString = components[0]
-                if let rmEndpoint = RMEndpoint(rawValue: endpointString) {
-                    self.init(endpoint: rmEndpoint)
+                var pathComponents: [String] = []
+                if components.count > 1 {
+                    pathComponents = components
+                    pathComponents.removeFirst()
+                }
+                if let rmEndpoint = RMEndpoint(
+                    rawValue: endpointString
+                ) {
+                    self.init(endpoint: rmEndpoint, pathComponents: pathComponents)
                     return
                 }
             }
@@ -92,4 +100,6 @@ final class RMRequest {
 
 extension RMRequest {
     static let listCharactersRequests = RMRequest(endpoint: .character)
+    static let listEpisodesRequests = RMRequest(endpoint: .episode)
+    static let listLocationsRequests = RMRequest(endpoint: .location)
 }

@@ -1,0 +1,81 @@
+import UIKit
+
+final class RMCharacterDetailView: UIView {
+    
+    private let viewModel: RMCharacterDetailViewViewModel
+    
+    private let spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: .large)
+        spinner.hidesWhenStopped = true
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        return spinner
+    }()
+    
+    public var collectionView: UICollectionView?
+    
+    // MARK: - Init
+    
+    init(frame: CGRect, viewModel: RMCharacterDetailViewViewModel) {
+        self.viewModel = viewModel
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+}
+
+private extension RMCharacterDetailView {
+    func setupUI() {
+        setupViews()
+        setupConstraints()
+    }
+    
+    func setupViews() {
+        translatesAutoresizingMaskIntoConstraints = false
+        backgroundColor = .systemBackground
+        let collectionView = createCollectionView()
+        self.collectionView = collectionView
+        addSubviews(collectionView, spinner)
+    }
+    
+    func setupConstraints() {
+        guard let collectionView = collectionView else { return }
+        
+        NSLayoutConstraint.activate([
+            spinner.widthAnchor.constraint(equalToConstant: 100),
+            spinner.heightAnchor.constraint(equalToConstant: 100),
+            spinner.centerYAnchor.constraint(equalTo: centerYAnchor),
+            spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            collectionView.topAnchor.constraint(equalTo: topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
+    }
+    
+    func createCollectionView() -> UICollectionView {
+        let layout = UICollectionViewCompositionalLayout { sectionIndex, _ in
+            return self.createSection(for: sectionIndex)
+        }
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(RMCharacterPhotoCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterPhotoCollectionViewCell.cellIdentifier)
+        collectionView.register(RMCharacterInfoCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterInfoCollectionViewCell.cellIdentifier)
+        collectionView.register(RMCharacterEpisodeCollectionViewCell.self, forCellWithReuseIdentifier: RMCharacterEpisodeCollectionViewCell.cellIdentifier)
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }
+    
+    func createSection(for sectionIndex: Int) -> NSCollectionLayoutSection {
+        let sectionTypes = viewModel.sections
+        
+        switch sectionTypes[sectionIndex] {
+        case .photo: return viewModel.createPhotoSectionlayout()
+        case .information: return viewModel.createInfoSectionlayout()
+        case .episodes: return viewModel.createEpisodesSectionlayout()
+        }
+    }
+}
